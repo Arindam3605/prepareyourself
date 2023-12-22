@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Text Display</title>
+</head>
+<body>
+    <h1>Welcome to My Website</h1>
+    <p>1. Write a program to traverse an array
+        <pre><code>
+            #include &lt;stdio.h&gt;
+            #define n 10
+            void main()
+            {
+                int arr[n]={1,0,2,9,3,8,4,7,5,6};
+                for(int i=0;i&lt;n;i++)
+                {
+                    printf("\nElement (%d/%d) : %d",i+1,n,arr[i]);
+                }
+            }
+          </code></pre>
+        
+        <br>
+       
+        <pre><code>
+            #include &lt;stdio.h&gt;
+            void main()
+            {
+                int arr1[4] = {1, 2, 3, 4}, arr2[4] = {5, 6, 7, 8}, arr3[8], i;
+                for (i = 0; i &lt; 8; i++)
+                {
+                    (i &lt; 4) ? (arr3[i] = arr1[i]) : (arr3[i] = arr2[i - 4]);
+                }
+                for (i = 0; i &lt; 8; i++)
+                {
+                    printf(" %d ", arr3[i]);
+                }
+            }
+          </code></pre>
+        <br><br><br>
+        <pre><code>
+            #include &lt;stdio.h&gt;
+            #define ROWS 2
+            #define COLS 3
+        
+            void printMatrix(int matrix[ROWS][COLS], const char* order) {
+                printf("%s Order:\n", order);
+                for (int i = 0; i &lt; ROWS; ++i) {
+                    for (int j = 0; j &lt; COLS; ++j) {
+                        printf("%d ", matrix[i][j]);
+                    }
+                    printf("\n");
+                }
+                printf("\n");
+            }
+        
+            int main() {
+                int matrix[ROWS][COLS] = {
+                    {1, 2, 3},
+                    {4, 5, 6}
+                };
+        
+                // Accessing matrix elements in row-major order
+                printMatrix(matrix, "Row-Major");
+        
+                // Accessing matrix elements in column-major order
+                printf("Column-Major Order:\n");
+                for (int j = 0; j &lt; COLS; ++j) {
+                    for (int i = 0; i &lt; ROWS; ++i) {
+                        printf("%d ", matrix[i][j]);
+                    }
+                    printf("\n");
+                }
+        
+                return 0;
+            }
+          </code></pre>
+        <br><br>
+        <h2>Multiplying Two Matrices Using Call by Reference</h2>
+        <pre><code>
+          #include &lt;stdio.h&gt;
+      
+          void MULT(int *A, int Ar, int Ac, int *B, int Bc, int *C) {
+              for (int i = 0; i &lt; Ar; i++) {
+                  for (int j = 0; j &lt; Bc; j++) {
+                      int c = 0;
+                      for (int k = 0; k &lt; Ac; k++) {
+                          c += A[i * Ac + k] * B[k * Bc + j];
+                      }
+                      C[i * Bc + j] = c;
+                  }
+              }
+          }
+      
+          void READ(int *A, int r, int c) {
+              for (int i = 0; i &lt; r * c; i++) {
+                  printf("Enter %d number : ", i + 1);
+                  scanf("%d", A + i);
+              }
+          }
+      
+          void SHOW(int *A, int r, int c) {
+              for (int j = 0; j &lt; r * c; j++) {
+                  if (j % r == 0)
+                      printf("\n");
+                  printf("\t%d", A[j]);
+              }
+          }
+      
+          void main() {
+              int A[2][2], B[2][2], C[2][2];
+              READ(A[0], 2, 2);
+              READ(B[0], 2, 2);
+              MULT(A[0], 2, 2, B[0], 2, C[0]);
+              SHOW(C[0], 2, 2);
+          }
+        </code></pre>
+        Output:
+        Enter 1 number : 1
+        Enter 2 number : 2
+        Enter 3 number : 3
+        Enter 4 number : 4
+        Enter 1 number : 1
+        Enter 2 number : 2
+        Enter 3 number : 3
+        Enter 4 number : 4
+         7 10
+         15 22
+         <br><br>
+         <h2>7. Phone Book using Structure</h2>
+         <pre><code>
+            #include &lt;stdio.h&gt;
+            #include &lt;stdlib.h&gt;
+        
+            typedef struct phonebook {
+                char fname[50];
+                char lname[50];
+                char phone[15];
+                struct phonebook *next;
+            } contact;
+        
+            typedef contact *contactpt;
+        
+            int choice() {
+                int r;
+                printf("\n\n\tPress 1 to add a new contact\n\tPress 2 for show all contacts\n\tPress 0 for exit\n\tYou >> ");
+                scanf("%d", &r);
+                return (r != 1 && r != 2 && r != 0) ? choice() : r;
+            }
+        
+            void newContact(contactpt *start) {
+                system("cls");
+                contactpt new = (contactpt)malloc(sizeof(contact));
+                printf("\n\t____New Contact____\n\n\tEnter First name: ");
+                scanf("%s", new->fname);
+                printf("\n\tEnter Last name: ");
+                scanf("%s", new->lname);
+                printf("\n\tEnter Phone number: +91");
+                scanf("%s", new->phone);
+                new->next = NULL;
+                if (*start == NULL)
+                    *start = new;
+                else {
+                    new->next = *start;
+                    *start = new;
+                }
+                printf("\n\tYour new contact is saved");
+            }
+        
+            void showContact(contactpt start) {
+                system("cls");
+                printf("\n\t____Contact List____");
+                if (start == NULL) {
+                    printf("\n\n\tPhonebook is empty.\n");
+                }
+                int i = 1;
+                while (start != NULL) {
+                    printf("\n\n\t%d) Name : %s %s, Phone : +91 %s", i, start->fname, start->lname, start->phone);
+                    start = start->next;
+                    i++;
+                }
+            }
+        
+            int main() {
+                int ch;
+                contactpt start = NULL;
+                while (ch) {
+                    if (ch == 1)
+                        newContact(&start);
+                    else if (ch == 2)
+                        showContact(start);
+                    ch = choice();
+                }
+            }
+          </code></pre>
+        <br><br>
+        Output:
+        ____New Contact____
+         Enter First name: Peter
+         Enter Last name: Parker
+         Enter Phone number: +912568978855
+         Your new contact is saved
+         Press 1 to add a new contact
+         Press 2 for show all contacts
+         Press 0 for exit
+         You >>2
+        ____Contact List____
+         1) Name : Peter Parker, Phone : +91 2568978855
+         2) Name : Brush Banner, Phone : +91 6589745784
+         3) Name : Tony Stark, Phone : +91 9876532455
+         4) Name : Bibhas Das, Phone : +91 7384513355
+         Press 1 to add a new contact
+         Press 2 for show all contacts
+         Press 0 for exit
+         You >>
+         <br><br>
+         <h2>8. Implement Stack using Array</h2>
+         <pre><code>
+           #include &lt;stdio.h&gt;
+           #define size 10
+           
+           int STACK[size];
+           int FLAG = -1;
+           
+           void push() {
+               if (FLAG == size - 1)
+                   printf("\n\tStack is full");
+               else {
+                   int num;
+                   printf("\n\tEnter the number for push : ");
+                   scanf("%d", &num);
+                   FLAG++;
+                   STACK[FLAG] = num;
+               }
+           }
+           
+           void show() {
+               if (FLAG == -1)
+                   printf("\n\tStack is Empty");
+               else {
+                   printf("\n\tStack is : ");
+                   for (int i = 0; i <= FLAG; i++)
+                       printf(" %d ", STACK[i]);
+               }
+           }
+           
+           void pop() {
+               if (FLAG == -1)
+                   printf("\n\tStack is Empty");
+               else {
+                   printf("\n\tPopped element : %d", STACK[FLAG]);
+                   FLAG -= 1;
+               }
+           }
+           
+           int main() {
+               int ch;
+               while (ch) {
+                   printf("\n\n\tPress 1 for push\n\tPress 2 for show\n\tPress 3 for pop\n\tPress 0 for exit\n\tYou >> ");
+                   scanf("%d", &ch);
+                   if (ch == 1)
+                       push();
+                   else if (ch == 2)
+                       show();
+                   else if (ch == 3)
+                       pop();
+               }
+           }
+         </code></pre>
+        Stack is : 1 2 3 4 5 6 7 8 9 10
+         Press 1 for push
+         Press 2 for show
+         Press 3 for pop
+         Press 0 for exit
+         You >> 1
+         Stack is full
+        Press 1 for push
+         Press 2 for show
+         Press 3 for pop
+         Press 0 for exit
+         You >> 3
+         Poped element : 10
+        Stack is : 1
+         Press 1 for push
+         Press 2 for show
+         Press 3 for pop
+         Press 0 for exit
+         You >> 3
+         Poped element : 1
+         Press 1 for push
+         Press 2 for show
+         Press 3 for pop
+         Press 0 for exit
+         You >> 3
+         Stack is Empty
+         <br><br>
+         <h2>9. Implement Stack using Pointers</h2>
+         <pre><code>
+           #include &lt;stdio.h&gt;
+           #include &lt;stdlib.h&gt;
+           
+           typedef struct node {
+               int number;
+               struct node *next;
+           } cell;
+           
+           typedef cell *cellpt;
+           
+           cellpt START = NULL;
+           
+           void push() {
+               cellpt new_cell = (cellpt)malloc(sizeof(cell));
+               printf("\n\tEnter the number for push: ");
+               scanf("%d", &new_cell->number);
+               new_cell->next = NULL;
+               if (START == NULL) {
+                   START = new_cell;
+               } else {
+                   new_cell->next = START;
+                   START = new_cell;
+               }
+           }
+           
+           void show() {
+               if (START == NULL)
+                   printf("\n\tStack is Empty");
+               else {
+                   printf("\n\tStack is : ");
+                   cellpt current = START;
+                   while (current != NULL) {
+                       printf(" %d", current->number);
+                       current = current->next;
+                   }
+               }
+           }
+           
+           void pop() {
+               if (START == NULL)
+                   printf("\n\tStack is Empty");
+               else {
+                   printf("\n\tPopped element : %d", START->number);
+                   cellpt temp = START;
+                   START = START->next;
+                   free(temp);
+               }
+           }
+           
+           int main() {
+               int ch;
+               while (1) {
+                   printf("\n\n\tPress 1 for push\n\tPress 2 for show\n\tPress 3 for pop\n\tPress 0 for exit\n\tYou >> ");
+                   scanf("%d", &ch);
+                   if (ch == 1)
+                       push();
+                   else if (ch == 2)
+                       show();
+                   else if (ch == 3)
+                       pop();
+                   else if (ch == 0)
+                       break;
+               }
+               return 0;
+           }
+         </code></pre>
+        Output:
+        Press 1 for push
+         Press 2 for show
+         Press 3 for pop
+         Press 0 for exit
+         You >> 1
+         Enter the number for push: 2
+         Press 1 for push
+         Press 2 for show
+         Press 3 for pop
+         Press 0 for exit
+         You >> 2
+         Stack is : 2 2 1
+         Press 1 for push
+         Press 2 for show
+         Press 3 for pop
+         Press 0 for exit
+         You >> 3
+         Poped element : 2
+         Press 1 for push
+         Press 2 for show
+         Press 3 for pop
+         Press 0 for exit
+         You >> 2
+         Stack is : 2 1
+         <br><br>
+       <h2>10. Write a program to convert Infix expression to prefix and postfix using stack.</h2> 
+        <pre><code>
+            #include &lt;stdio.h&gt;
+            #include &lt;stdlib.h&gt;
+            #include &lt;ctype.h&gt;
+            #include &lt;string.h&gt;
+            #define MAX_SIZE 100
+        void push(char stack[], int *top, char value) {
+         if (*top == MAX_SIZE - 1) {
+         printf("Stack Overflow\n");
+         return;
+         }
+         stack[++(*top)] = value;
+        }
+        char pop(char stack[], int *top) {
+         if (*top == -1) {
+         printf("Stack Underflow\n");
+         return '\0';
+         }
+         return stack[(*top)--];
+        }
+        int isEmpty(int top) {
+         return top == -1;
+        }
+        int isOperator(char ch) {
+         return (ch == '+' || ch == '-' || ch == '*' || ch == '/');
+        }
+        int precedence(char ch) {
+         return (ch == '+' || ch == '-') ? 1 : ((ch == '*' || ch == '/') ? 2 : 0);
+        }
+        void infixToPostfix(char infix[], char postfix[]) {
+         char stack[MAX_SIZE];
+         int top = -1;
+         int i = 0, j = 0;
+         while (infix[i]) {
+         char token = infix[i++];
+         if (isalnum(token))
+         postfix[j++] = token;
+         else if (token == '(')
+         push(stack, &top, token);
+         else if (token == ')') {
+         while (!isEmpty(top) && stack[top] != '(')
+         postfix[j++] = pop(stack, &top);
+         if (!isEmpty(top) && stack[top] != '(') {
+         printf("Invalid expression\n");
+         return;
+         } else
+         pop(stack, &top);
+         } else if (isOperator(token)) {
+         while (!isEmpty(top) && precedence(stack[top]) >= precedence(token))
+         postfix[j++] = pop(stack, &top);
+         push(stack, &top, token);
+         }
+         }
+         while (!isEmpty(top))
+         postfix[j++] = pop(stack, &top);
+         postfix[j] = '\0';
+        }
+        void reverseString(char str[]) {
+         for (int i = 0, j = strlen(str) - 1; i < j; i++, j--) {
+         char temp = str[i];
+         str[i] = str[j];
+         str[j] = temp;
+         }
+        }
+        void infixToPrefix(char infix[], char prefix[]) {
+         char stack[MAX_SIZE];
+         int top = -1;
+         int i = 0, j = 0;
+         while (infix[i]) {
+         char token = infix[i++];
+         if (isalnum(token))
+         prefix[j++] = token;
+         else if (token == '(')
+         push(stack, &top, token);
+         else if (token == ')') {
+         while "(!isEmpty(top) && stack[top] != '(')
+         prefix[j++] = pop(stack, &top);
+         if (!isEmpty(top) && stack[top] != '(') {
+         printf("Invalid expression\n");
+         return;
+         } else
+         pop(stack, &top);
+         } else if (isOperator(token)) {
+         while (!isEmpty(top) && precedence(stack[top]) > precedence(token))
+         prefix[j++] = pop(stack, &top);
+         push(stack, &top, token);
+         }
+         }
+         while (!isEmpty(top))
+         prefix[j++] = pop(stack, &top);
+         prefix[j] = '\0';
+         reverseString(prefix);
+        }
+        int main() {
+         char infixExpression[MAX_SIZE];
+         char postfixExpression[MAX_SIZE];
+         char prefixExpression[MAX_SIZE];
+         printf("Enter infix expression: ");
+         scanf("%s", infixExpression);
+         infixToPostfix(infixExpression, postfixExpression);
+         if (postfixExpression[0] != '\0') {
+         printf("Postfix expression: %s\n", postfixExpression);
+         }
+         infixToPrefix(infixExpression, prefixExpression);
+         if (prefixExpression[0] != '\0') {
+         printf("Prefix expression: %s\n", prefixExpression);
+         }
+         return 0;
+        }
+        </code></pre>
+       
+        <br><br>
+        11. Write a program to implement a linear queue using arrays.
+        #include &lt;stdio.h&gt;
+        #include &lt;stdlib.h&gt;
+        #define SIZE 5
+        int queue[SIZE];
+        int front = 0;
+        int rear = -1;
+        int itemCount = 0;
+        void enqueue(int num) {
+         if (itemCount == SIZE) {
+         printf("Queue is full. Cannot enqueue %d.\n", num);
+         return;
+         }
+         if (rear == SIZE - 1) {
+         printf("Queue is full. Cannot enqueue %d.\n", num);
+         return;
+         }
+         rear = rear + 1;
+         queue[rear] = num;
+         itemCount++;
+         printf("%d enqueued to the queue\n", num);
+        }
+        int dequeue() {
+         if (itemCount == 0) {
+         printf("Queue is empty. Cannot dequeue.\n");
+         return -1;
+         }
+         int dequeuedItem = queue[front];
+         front = front + 1;
+         itemCount--;
+         return dequeuedItem;
+        }
+        void show() {
+         if (itemCount == 0) {
+         printf("Queue is empty.\n");
+         return;
+         }
+         printf("Queue elements: ");
+         for (int i = front; i &lt;= rear; i++) {
+         printf("%d ", queue[i]);
+         }
+         printf("\n");
+        }
+        void main() {
+         int num;
+         int choice;
+         while (1) {
+         printf("\nPress 1 for enqueue\nPress 2 for dequeue\nPress 3 for show\nPress 0 for exit\n");
+         scanf("%d", &choice);
+         switch (choice) {
+         case 1:
+         printf("Enter a number: ");
+         scanf("%d", &num);
+         enqueue(num);
+         break;
+         case 2:
+         num = dequeue();
+         if (num != -1) {
+         printf("%d dequeued from the queue\n", num);
+         }
+         break;
+         case 3:
+         show();
+         break;
+         case 0:
+         printf("Exiting the program\n");
+         exit(0);
+         default:
+         printf("Invalid choice, please try again.\n");
+         }
+         }
+        }
+        <br><br>
+        Output:
+        Press 1 for enqueue
+        Press 2 for dequeue
+        Press 3 for show
+        Press 0 for exit
+        1
+        Enter a number: 2
+        2 enqueued to the queue
+        Press 1 for enqueue
+        Press 2 for dequeue
+        Press 3 for show
+        Press 0 for exit
+        1
+        Enter a number: 4
+        4 enqueued to the queue
+        Press 1 for enqueue
+        Press 2 for dequeue
+        Press 3 for show
+        Press 0 for exit
+        1
+        Enter a number: 6
+        6 enqueued to the queue
+        Press 1 for enqueue
+        Press 2 for dequeue
+        Press 3 for show
+        Press 0 for exit
+        3
+        Queue elements: 2 4 6
+        Press 1 for enqueue
+        Press 2 for dequeue
+        Press 3 for show
+        Press 0 for exit
+        2
+        2 dequeued from the queue
+        <br><br>
+        12. Write a program to implement a linear queue using a pointer.
+        #include &lt;stdio.h&gt;
+        #include &lt;stdlib.h&gt;
+        struct node {
+         int info;
+         struct node *ptr;
+        };
+        struct node *front = NULL;
+        struct node *rear = NULL;
+        void enq(int data) {
+         struct node *temp = (struct node*)malloc(sizeof(struct node));
+         temp->info = data;
+         temp->ptr = NULL;
+         if (rear == NULL) {
+         front = rear = temp;
+         } else {
+         rear->ptr = temp;
+         rear = temp;
+         }
+        }
+        void deq() {
+         if (front == NULL) {
+         printf("\n\tError: Empty Queue");
+         return;
+         }
+         struct node *temp = front;
+         if (front == rear) {
+         printf("\n\tDequeued value: %d", front->info);
+         front = rear = NULL;
+         } else {
+         printf("\n\tDequeued value: %d", front->info);
+         front = front->ptr;
+         }
+         free(temp);
+        }
+        void display() {
+         if (front == NULL) {
+         printf("\n\tQueue is Empty.");
+         return;
+         }
+         struct node *temp = front;
+         printf("\n\tFront &lt;-- ");
+         while (temp != NULL) {
+         printf("%d &lt;--", temp->info);
+         temp = temp->ptr;
+         }
+         printf(" End");
+        }
+        void main() {
+         int ch, no;
+         while (1) {
+         printf("\n\n\tTo Enqueue press: 1\n\tTo Dequeue press: 2\n\tTo Display press: 3\n\tTo Exit press: 0\n\n\tUser: ");
+         scanf("%d", &ch);
+         switch (ch) {
+         case 1:
+         printf("\n\tEnter data: ");
+         scanf("%d", &no);
+         printf("\n\tEnqueue completed...");
+         enq(no);
+         break;
+         case 2:
+         printf("\n\tDequeue completed...");
+         deq();
+         break;
+         case 3:
+         display();
+         break;
+         case 0:
+         exit(0);
+         default:
+         printf("\n\tInvalid Choice....");
+         }
+         }}
+         <br><br>
+        Output:
+        To Enqueue press: 1
+         To Dequeue press: 2
+         To Display press: 3
+         To Exit press: 0
+         User: 1
+         Enter data: 1
+         Enqueue completed...
+         To Enqueue press: 1
+         To Dequeue press: 2
+         To Display press: 3
+         To Exit press: 0
+         User: 1
+         Enter data: 3
+         Enqueue completed...
+         To Enqueue press: 1
+         To Dequeue press: 2
+         To Display press: 3
+         To Exit press: 0
+         User: 3
+         Front &lt;-- 1 &lt;--3 &lt;-- End
+         To Enqueue press: 1
+         To Dequeue press: 2
+         To Display press: 3
+         To Exit press: 0
+         User: 2
+         Dequeue completed...
+         Dequeued value: 1
+         <br><br>
+        13. Implement a circular queue using c programming.
+        #include &lt;stdio.h&gt;
+        #include &lt;stdlib.h&gt;
+        #define MAX_SIZE 5
+        int circularQueue[MAX_SIZE];
+        int front = -1;
+        int rear = -1;
+        void enqueue(int data) {
+         if ((front == 0 && rear == MAX_SIZE - 1) || (front == rear + 1)) {
+         printf("Queue is full. Cannot enqueue %d.\n", data);
+         return;
+         }
+         if (front == -1) {
+         front = 0;
+         rear = 0;
+         } else {
+         rear = (rear + 1) % MAX_SIZE;
+         }
+         circularQueue[rear] = data;
+         printf("%d enqueued to the queue\n", data);
+        }
+        void dequeue() {
+         if (front == -1) {
+         printf("Queue is empty. Cannot dequeue.\n");
+         return;
+         }
+         printf("%d dequeued from the queue\n", circularQueue[front]);
+         if (front == rear) {
+         front = -1;
+         rear = -1;
+         } else {
+         front = (front + 1) % MAX_SIZE;
+         }
+        }
+        void display() {
+         if (front == -1) {
+         printf("Queue is empty.\n");
+         return;
+         }
+         printf("Circular Queue elements: ");
+         int i = front;
+         do {
+         printf("%d ", circularQueue[i]);
+         i = (i + 1) % MAX_SIZE;
+         } while (i != (rear + 1) % MAX_SIZE);
+         printf("\n");
+        }
+        int main() {
+         int choice, data;
+         while (1) {
+         printf("\n1. Enqueue\n2. Dequeue\n3. Display\n4. Exit\n");
+         printf("Enter your choice: ");
+         scanf("%d", &choice);
+         switch (choice) {
+         case 1:
+         printf("Enter data to enqueue: ");
+         scanf("%d", &data);
+         enqueue(data);
+         break;
+         case 2:
+         dequeue();
+         break;
+         case 3:
+         display();
+         break;
+         case 4:
+         exit(0);
+         default:
+         printf("Invalid choice. Please try again.\n");
+         }
+         }
+         return 0;
+        }
+        <br><br>
+        Output:
+        1. Enqueue
+        2. Dequeue
+        3. Display
+        4. Exit
+        Enter your choice: 1
+        Enter data to enqueue: 3
+        3 enqueued to the queue
+        1. Enqueue
+        2. Dequeue
+        3. Display
+        4. Exit
+        Enter your choice: 1
+        Enter data to enqueue: 4
+        4 enqueued to the queue
+        1. Enqueue
+        2. Dequeue
+        3. Display
+        4. Exit
+        Enter your choice: 3
+        Circular Queue elements: 3 4
+        1. Enqueue
+        2. Dequeue
+        3. Display
+        4. Exit
+        Enter your choice: 2
+        3 dequeued from the queue
+        <br><br>
+        14. Implement Descending Priority Queue using array.
+        #include &lt;stdio.h&gt;
+        #include &lt;stdlib.h&gt;
+        #define MAX_SIZE 5
+        struct PriorityQueue {
+         int data[MAX_SIZE];
+         int priority[MAX_SIZE];
+         int rear;
+        };
+        void initializeQueue(struct PriorityQueue *pq) {
+         pq->rear = -1;
+        }
+        int isFull(struct PriorityQueue *pq) {
+         return pq->rear == MAX_SIZE - 1;
+        }
+        void enqueue(struct PriorityQueue *pq, int value, int priority) {
+         if (isFull(pq)) {
+         printf("Queue is full. Cannot enqueue.\n");
+         return;
+         }
+         int i = pq->rear;
+         while (i >= 0 && priority > pq->priority[i]) {
+         pq->data[i + 1] = pq->data[i];
+         pq->priority[i + 1] = pq->priority[i];
+         i--;
+         }
+         pq->data[i + 1] = value;
+         pq->priority[i + 1] = priority;
+         pq->rear++;
+        }
+        int dequeue(struct PriorityQueue *pq) {
+         if (pq->rear == -1) {
+         printf("Queue is empty. Cannot dequeue.\n");
+         return -1;
+         }
+         int value = pq->data[pq->rear];
+         int priority = pq->priority[pq->rear];
+         pq->rear--;
+         return value;
+        }
+        void display(struct PriorityQueue *pq) {
+         if (pq->rear == -1) {
+         printf("Queue is empty.\n");
+         return;
+         }
+         printf("Priority Queue elements:\n");
+         for (int i = 0; i &lt;= pq->rear; i++) {
+         printf("Value: %d, Priority: %d\n", pq->data[i], pq->priority[i]);
+         }
+        }
+        int main() {
+         struct PriorityQueue pq;
+         initializeQueue(&pq);
+         enqueue(&pq, 10, 3);
+         enqueue(&pq, 20, 1);
+         enqueue(&pq, 30, 2);
+         display(&pq);
+         int value = dequeue(&pq);
+         if (value != -1) {
+         printf("Dequeued value: %d\n", value);
+         }
+         display(&pq);
+         return 0;
+        }
+        <br><br>
+        Output:
+        Priority Queue elements:
+        Value: 10, Priority: 3
+        Value: 30, Priority: 2
+        Value: 20, Priority: 1
+        Dequeued value: 20
+        Priority Queue elements:
+        Value: 10, Priority: 3
+        Value: 30, Priority: 2
+        <br><br>
+        15. Write a program to insert, delete and traverse the elements of a linked list.
+        #include &lt;stdio.h&gt;
+        #include &lt;stdlib.h&gt;
+        struct Node {
+         int data;
+         struct Node* next;
+        };
+        struct Node* insertNode(struct Node* head, int value) {
+         struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+         newNode->data = value;
+         newNode->next = head;
+         return newNode;
+        }
+        struct Node* deleteNode(struct Node* head, int value) {
+         struct Node* current = head;
+         struct Node* previous = NULL;
+         while (current != NULL && current->data != value) {
+         previous = current;
+         current = current->next;
+         }
+         if (current == NULL) {
+         printf("Element %d not found in the linked list.\n", value);
+         return head;
+         }
+         if (previous == NULL) {
+         head = current->next;
+         } else {
+         previous->next = current->next;
+         }
+         free(current);
+         printf("Element %d deleted successfully.\n", value);
+         return head;
+        }
+        void traverseList(struct Node* head) {
+         printf("Linked List: ");
+         struct Node* current = head;
+         while (current != NULL) {
+         printf("%d ", current->data);
+         current = current->next;
+         }
+         printf("\n");
+        }
+        int main() {
+         struct Node* head = NULL;
+         head = insertNode(head, 10);
+         head = insertNode(head, 20);
+         head = insertNode(head, 30);
+         traverseList(head);
+         head = deleteNode(head, 20);
+         traverseList(head);
+         return 0;
+        }
+        <br><br>
+        Output:
+        Linked List: 30 20 10
+        Element 20 deleted successfully.
+        Linked List: 30 10
+        <br><br>
+        16. Implement a circular linked list.
+        #include &lt;stdio.h&gt;
+        #include &lt;stdlib.h&gt;
+        struct Node {
+         int data;
+         struct Node* next;
+        };
+        struct Node* insertNode(struct Node* head, int value) {
+         struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+         newNode->data = value;
+         if (head == NULL) {
+         newNode->next = newNode;
+         return newNode;
+         }
+         newNode->next = head->next;
+         head->next = newNode;
+         return head;
+        }
+        void traverseList(struct Node* head) {
+         if (head == NULL) {
+         printf("Circular Linked List is empty.\n");
+         return;
+         }
+         printf("Circular Linked List: ");
+         struct Node* current = head->next;
+         do {
+         printf("%d ", current->data);
+         current = current->next;
+         } while (current != head->next);
+         printf("\n");
+        }
+        int main() {
+         struct Node* head = NULL;
+         head = insertNode(head, 10);
+         head = insertNode(head, 20);
+         head = insertNode(head, 30);
+         traverseList(head);
+         return 0;
+        }
+        <br><br>
+        Output:
+        Circular Linked List: 30 20 10
+        <br><br>
+        17. Implement Doubly linked list.
+        #include &lt;stdio.h&gt;
+        #include &lt;stdlib.h&gt;
+        #include &lt;string.h&gt;
+        typedef struct anode{
+         char *name;
+         char *enrollment;
+         char *phone;
+         struct anode *font;
+         struct anode *end;
+        }node;
+        typedef node *nodept;
+        nodept createNode(char *name,char *enrollment, char *phone)
+        {
+         nodept new =(nodept)malloc(sizeof(node));
+         new->name=name;
+         new->enrollment=enrollment;
+         new->phone=phone;
+         new->end=NULL;
+         return new;
+        }
+        void insertNode(nodept *START,char *name,char *enrollment, char *phone)
+        {
+         nodept new=createNode(name,enrollment,phone);
+         if(*START==NULL)
+         {
+         new->font = *START;
+         *START = new;
+         }
+         else
+         {
+         new->end=*START;
+         (*START)->font=new;
+         new->font=*START;
+         *START=new;
+         }
+        }
+        void showList(nodept START)
+        {
+        printf("\n\tName\t\tEnrollment\t\tPhone");
+        printf("\n\t---------------------------------------------------");
+         while (START != NULL)
+         {
+         printf("\n\t%s",START->name);
+         printf("\t\t%s",START->enrollment);
+         printf("\t\t%s",START->phone);
+         START=START->end;
+         }
+        }
+        void main()
+        {
+         nodept START=NULL;
+         insertNode(&START,"Bibhas","2321206002033","7384513355");
+         insertNode(&START,"Shreya","2321206002032","9876543210");
+         showList(START);
+        }
+        <br><br>
+        Output:
+         Name Enrollment Phone
+         ---------------------------------------------------
+         Shreya 2321206002032 9876543
+         Bibhas 2321206002033 738451
+         <br><br>
+        18. Write a program to construct a binary search tree using array.
+        #include &lt;stdio.h&gt;
+            #include &lt;stdlib.h&gt;
+        struct Node {
+         int data;
+         struct Node* left;
+         struct Node* right;
+        };
+        struct Node* createNode(int value) {
+         struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+         newNode->data = value;
+         newNode->left = newNode->right = NULL;
+         return newNode;
+        }
+        struct Node* insertNode(struct Node* root, int value) {
+         if (root == NULL) {
+         return createNode(value);
+         }
+         if (value &lt; root->data) {
+         root->left = insertNode(root->left, value);
+         } else if (value > root->data) {
+         root->right = insertNode(root->right, value);
+         }
+         return root;
+        }
+        void inOrderTraversal(struct Node* root) {
+         if (root != NULL) {
+         inOrderTraversal(root->left);
+         printf("%d ", root->data);
+         inOrderTraversal(root->right);
+         }
+        }
+        int main() {
+         struct Node* root = NULL;
+         root = insertNode(root, 10);
+         root = insertNode(root, 5);
+         root = insertNode(root, 15);
+         root = insertNode(root, 3);
+         root = insertNode(root, 8);
+         printf("In-order Traversal: ");
+         inOrderTraversal(root);
+         printf("\n");
+         return 0;
+        }
+        <br><br>
+        Output:
+        In-order Traversal: 3 5 8 10 15
+        <br><br>
+        19. Implement binary search using c programming.
+        #include &lt;stdio.h&gt;
+        #define size 10
+        int BinarySearch(int a[],int lower,int upper,int n)
+        {
+         if(lower&lt;=upper)
+         {
+         int mid=(lower+upper)/2;
+         if(a[mid]==n)
+         return mid;
+         else if(n&lt;a[mid])
+         return BinarySearch(a,lower,mid-1,n);
+         else if(n>a[mid])
+         return BinarySearch(a,mid+1,upper,n);
+         }
+         else
+         return -1;
+        }
+        void main()
+        {
+         int array[size],n,f;
+         for(int i=0;i&lt;size;i++)
+         {
+         printf("\n\tEnter the %d element of the array : ",i);
+         scanf("%d",array+i);
+         }
+         printf("\n\tEnter the number that you want to search : ");
+         scanf("%d",&n);
+         f=BinarySearch(array,0,size-1,n);
+         printf("\n\n\t__Binary search__");
+         if(f==-1)
+         printf("\n\n\t%d is not present in the given array, sorry",n);
+         else
+         printf("\n\t%d is present in the position %d in the given array",n,f);
+        }
+        <br><br>
+        Output:
+         Enter the 0 element of the array : 1
+         Enter the 1 element of the array : 2
+         Enter the 2 element of the array : 3
+         Enter the 3 element of the array : 4
+         Enter the 4 element of the array : 56
+         Enter the 5 element of the array : 7
+         Enter the 6 element of the array : 8
+         Enter the 7 element of the array : 9
+         Enter the 8 element of the array : 10
+         Enter the 9 element of the array : 11
+         Enter the number that you want to search : 7
+         __Binary search__
+         7 is not present in the given array, sorry
+         <br><br>
+        20. write a program to sort an array using bubble sort.
+        #include &lt;stdio.h&gt;
+        void main()
+        {
+         int data[100],i,n,step,temp; 
+         printf("Enter the number of elements to be sorted: ");
+         scanf("%d",&n); 
+         for(i=0;i&lt;n;i++)
+         {
+         printf("Enter element %d/%d: ",i+1,n);
+         scanf("%d",&data[i]);
+         }
+         for(step=0;step&lt;n-1;step++)
+         {
+         for(i=0;i&lt;n-step-1;i++)
+         {
+         if(data[i]>data[i+1]) /* To sort in descending order, change > to &lt; in this line. */
+         {
+         temp=data[i];
+         data[i]=data[i+1];
+         data[i+1]=temp;
+         }
+         }
+        }
+         printf("\n\nFinal ascending order: ");
+         for(i=0;i&lt;n;i++)
+         printf("%d ",data[i]);
+        }
+        <br><br>
+        Output:
+        Enter the number of elements to be sorted: 10
+        Enter element 1/10: 223
+        Enter element 2/10: 232
+        Enter element 3/10: 43
+        Enter element 4/10: 345
+        Enter element 5/10: 5
+        Enter element 6/10: 33
+        Enter element 7/10: 245
+        Enter element 8/10: 78
+        Enter element 9/10: 67
+        Enter element 10/10: 98
+        Final ascending order: 5 33 43 67 78 98 223 232 245 34</p>
+</body>
+</html>
